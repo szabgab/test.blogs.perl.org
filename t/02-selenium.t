@@ -25,13 +25,15 @@ subtest main_page => sub {
 	my $form = $s->find_element('form', 'tag_name');
 	#diag $form;
 	is $form->get_attribute('action'), "${url}mt/mt-cp.fcgi";
-	my $username = $s->find_element('//input[@id="username"]', 'xpath');
-	#my $username = $s->find_child_element($form, q{./input[@id="username"]}, 'xpath');
+	#my $username = $s->find_element('//input[@id="username"]', 'xpath');
+	#my $username = $s->find_child_element($form, './input[@id="username"]', 'xpath'); # cannot locate element
+	#my $username = $s->find_child_element($form, "./input[\@id='username']", 'xpath'); # cannot locate element
+	my $username = $s->find_child_element($form, '//input[@id="username"]', 'xpath');
 	is $username->get_attribute('name'), 'username';
 	is $username->get_attribute('class'), 'ti';
 	#diag $input;
-	sleep 2;
+
+	#diag $s->find_child_element($form, './div[@id="signin_with_mt"]', 'xpath');
+	#sleep 2;
 };
-
-
 
