@@ -11,7 +11,7 @@ my $url = 'http://blogs.perl.org/';
 my $s = Test::Selenium::Remote::Driver->new;
 #diag $s->server_is_running;
 subtest main_page => sub {
-	plan tests => 5;
+	plan tests => 7;
 	$s->get_ok($url);
 	$s->body_text_contains(q{There's more than one way to blog it.});
 
@@ -23,8 +23,13 @@ subtest main_page => sub {
 	$s->body_text_contains(q{Sign in using...});
 
 	my $form = $s->find_element('form', 'tag_name');
-	diag $form;
+	#diag $form;
 	is $form->get_attribute('action'), "${url}mt/mt-cp.fcgi";
+	my $username = $s->find_element('//input[@id="username"]', 'xpath');
+	#my $username = $s->find_child_element($form, q{./input[@id="username"]}, 'xpath');
+	is $username->get_attribute('name'), 'username';
+	is $username->get_attribute('class'), 'ti';
+	#diag $input;
 	sleep 2;
 };
 
