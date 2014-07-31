@@ -4,9 +4,10 @@ WriteMakefile(
     'NAME'          => 'Blogs',
     'VERSION_FROM'  => 'lib/Blogs.pm',
     'PREREQ_PM'     => {
-                           'Test::More'           => '1.00',
-                           'Test::WWW::Mechanize' => 0,
-                        },
+        'Test::More'                     => '1.00',
+        'Test::WWW::Mechanize'           => '1.44',
+        'Test::Selenium::Remote::Driver' => '0.2102',
+    },
     ABSTRACT_FROM => 'lib/Blogs.pm',
     AUTHOR        => 'Gabor Szabo <szabgab@cpan.org>',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
