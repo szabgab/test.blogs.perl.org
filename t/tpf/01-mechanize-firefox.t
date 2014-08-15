@@ -4,7 +4,7 @@ use warnings;
 use Test::More;
 use WWW::Mechanize::Firefox;
 
-my $w = eval { WWW::Mechanize::Firefox->new };
+my $w = eval { WWW::Mechanize::Firefox->new( autodie => 1 ) };
 if ($@) {
 	plan skip_all => "MozRepl does not seem to be running: $@";
 }
@@ -12,6 +12,7 @@ my $url = 'http://news.perlfoundation.org/';
 
 plan tests => 3;
 
+# We have this just to make sure the success was set to True once before we testing the 404 error.
 subtest pages1 => sub {
 	#plan tests => 3;
 
@@ -24,19 +25,21 @@ subtest pages1 => sub {
 subtest invalid_page => sub {
 	#plan tests => 3;
 
-	eval {
-		$w->get("$url/xyz");
-	};
-	like $@, qr/^Not Found /; # Is it really supposed to throw an exception?
-	# apparently sometimes this does not throw exception (and sets the status to 200)
+	$w->autodie(0);
+	my $resp = $w->get("$url/xyz");
+	ok !$resp->is_success;
 	ok !$w->success, 'failure';
 	is $w->status, '404';
 };
 
+$w->autodie(1);  # during development
+
 subtest pages => sub {
-	plan tests => 1;
+	#plan tests => 1;
 
 	my $resp = $w->get($url);  # returns HTTP::Response
 	ok $resp->is_success;
+	is $w->status, '200';
+
 };
 
