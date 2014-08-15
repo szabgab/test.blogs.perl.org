@@ -1,3 +1,4 @@
 *.swp
 MYMETA.*
 Makefile
+.DS_Store
